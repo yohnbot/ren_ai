@@ -5,6 +5,9 @@ will be using a virutal audio cable and vtube studio to make a model work with t
 ## Snapshot of web application
 ![image](https://github.com/user-attachments/assets/28cd10a5-0e6f-4b3a-8c4b-ffae17bc8903)
 
+## TTS voice
+
+
 Future improvements that can be done for this project as it is out of scope:
 - Update TTS
 - Fully intergrate with Twitch and Youtube
