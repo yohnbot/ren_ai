@@ -4,6 +4,8 @@ will be using a virutal audio cable and vtube studio to make a model work with t
 
 ## Snapshot of web application
 ![image](https://github.com/user-attachments/assets/28cd10a5-0e6f-4b3a-8c4b-ffae17bc8903)
+![Screenshot 2025-04-24 204534](https://github.com/user-attachments/assets/35efa11d-1593-4ddf-9202-12f04b785282)
+
 
 ## TTS voice
 
