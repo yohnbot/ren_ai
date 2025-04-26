@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RenAI VTuber</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <img src="/static/miku.gif" alt="RenAI" class="profile-icon" />
+        <h1>RenAI VTuber</h1>
+      </header>
+
+      <div class="split-container">
+        <!-- Local Chat -->
+        <div class="chat-panel local-chat">
+          <h2>Local Chat</h2>
+          <div class="chat-area" id="chatArea"></div>
+          <div class="input-group">
+            <input type="text" id="userInput" placeholder="Type here..." />
+            <button id="sendBtn">Send</button>
+            <button id="stopBtn" style="display: none">Stop</button>
+          </div>
+        </div>
+
+        <!-- Twitch Chat Embed -->
+        <div class="chat-panel twitch-chat">
+          <h2>Twitch Chat</h2>
+          <iframe src="https://www.twitch.tv/embed/ren_ai_vt/chat?parent=<parent>"
+            height="500"
+            width="350">
+    </iframe>
+    </div>
+
+    <!-- chat.js -->
+    <script src="/static/js/chat.js"></script>
+  </body>
+</html>
