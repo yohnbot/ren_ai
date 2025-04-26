@@ -12,7 +12,7 @@ To customise the voice of pyttsx3 it can only use the Microsoft text to speech t
 You may require to restart your computer once download is finished
 ![image](https://github.com/user-attachments/assets/66293e9f-b131-4991-9b5e-a497c527a386)
 ![image](https://github.com/user-attachments/assets/38b9fda4-5b6a-470c-85d8-6b986a89e0af)
-Ensure that it is changed in "Text to Speech" in the Control panel
+# Ensure that it is changed in "Text to Speech" in the Control panel
 
 
 ## Lipsync Animation 
