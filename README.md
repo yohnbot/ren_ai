@@ -9,6 +9,9 @@ will be using a virutal audio cable and vtube studio to make a model work with t
 
 ## TTS voice
 
+## Lipsync Animation 
+https://lualucky.itch.io/vts-desktop-audio-plugin
+Using this plugin for Vtube Studio to listen to the desktop audio to sync animation with the mouth of the avatar
 
 Future improvements that can be done for this project as it is out of scope:
 - Update TTS
