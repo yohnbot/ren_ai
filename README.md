@@ -8,6 +8,9 @@ will be using a virutal audio cable and vtube studio to make a model work with t
 
 
 ## TTS voice
+![image](https://github.com/user-attachments/assets/60961a04-db87-483b-8e23-ec1ea2d8b36a)
+![image](https://github.com/user-attachments/assets/38b9fda4-5b6a-470c-85d8-6b986a89e0af)
+
 
 ## Lipsync Animation 
 https://lualucky.itch.io/vts-desktop-audio-plugin
