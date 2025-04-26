@@ -54,21 +54,20 @@ class Persona:
             logger.error(f"Failed to load persona: {str(e)}")
 
     def apply_style(self, text, emotion="neutral"):
-        """Apply anime-style modifications with character filtering"""
         if emotion in self.traits['Phrases']:
             base_text = self.traits['Phrases'][emotion].replace('{text}', text)
         else:
-            base_text = f"{text} desu!"
+            base_text = f"{text}"
         
         # Filter unwanted characters before returning
-        return re.sub(r'[#`~]', '', base_text)
+        return re.sub(r'[#`~()-]', '', base_text)
 
 # Initialize persona
 persona = Persona()
 
 def sanitize_text(text):
     """Remove unwanted characters from any text"""
-    return re.sub(r'[#`~]', '', text)
+    return re.sub(r'[#`~-]', '', text)
 
 def load_responses():
     try:
@@ -135,7 +134,7 @@ def generate_tts(text):
     output_file = os.path.join('static', 'response.mp3')
     try:
         engine = pyttsx3.init()
-        engine.setProperty('rate', 160)
+        engine.setProperty('rate', 130)
         engine.setProperty('volume', 0.9)
         # Sanitize text before TTS generation
         clean_text = sanitize_text(text)
