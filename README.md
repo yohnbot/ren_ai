@@ -8,7 +8,10 @@ will be using a virutal audio cable and vtube studio to make a model work with t
 
 
 ## TTS voice
-![image](https://github.com/user-attachments/assets/60961a04-db87-483b-8e23-ec1ea2d8b36a)
+To customise the voice of pyttsx3 it can only use the Microsoft text to speech this can be found on settings.
+You may require to restart your computer once download is finished
+![image](https://github.com/user-attachments/assets/66293e9f-b131-4991-9b5e-a497c527a386)
+Ensure that it is changed in "Text to Speech" in the Control panel
 ![image](https://github.com/user-attachments/assets/38b9fda4-5b6a-470c-85d8-6b986a89e0af)
 
 
