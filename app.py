@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 import json
 import os
+import re  # Added for character filtering
 import time
 import requests
 import pyttsx3
@@ -26,7 +27,6 @@ with open(CONFIG_PATH) as f:
     TWITCH_OAUTH_TOKEN = config.get("TWITCH_OAUTH_TOKEN", "")
     TWITCH_CHANNEL = config.get("TWITCH_CHANNEL", "")
 
-# Persona Class
 class Persona:
     def __init__(self):
         self.traits = {
@@ -46,33 +46,42 @@ class Persona:
                         current_section = line[1:-1]
                     elif '=' in line and current_section:
                         key, value = line.split('=', 1)
-                        self.traits[current_section][key.strip().lower()] = value.strip()
+                        # Filter unwanted characters during load
+                        filtered_value = re.sub(r'[#`~]', '', value.strip())
+                        self.traits[current_section][key.strip().lower()] = filtered_value
             logger.info("Persona loaded successfully")
         except Exception as e:
             logger.error(f"Failed to load persona: {str(e)}")
 
     def apply_style(self, text, emotion="neutral"):
-        """Apply anime-style modifications"""
+        """Apply anime-style modifications with character filtering"""
         if emotion in self.traits['Phrases']:
-            return self.traits['Phrases'][emotion].replace('{text}', text)
-        return f"{text} desu~!"  # Default Japanese suffix
+            base_text = self.traits['Phrases'][emotion].replace('{text}', text)
+        else:
+            base_text = f"{text} desu!"
+        
+        # Filter unwanted characters before returning
+        return re.sub(r'[#`~]', '', base_text)
 
 # Initialize persona
 persona = Persona()
 
-# Response handling
+def sanitize_text(text):
+    """Remove unwanted characters from any text"""
+    return re.sub(r'[#`~]', '', text)
+
 def load_responses():
     try:
         with open(RESPONSES_PATH, 'r') as f:
             responses = json.load(f)
-        # Convert keys to lowercase for case-insensitive matching
-        return {k.lower(): v for k, v in responses.items()}
+        # Convert keys to lowercase and sanitize values
+        return {k.lower(): sanitize_text(v) for k, v in responses.items()}
     except Exception as e:
         logger.error(f"Failed to load responses: {str(e)}")
         return {}
 
 def get_api_response(prompt):
-    """Fallback to DeepSeek/DuckDuckGo"""
+    """Fallback to DeepSeek/DuckDuckGo with sanitization"""
     try:
         headers = {"Authorization": f"Bearer {DEEPSEEK_API_KEY}"}
         payload = {
@@ -86,60 +95,57 @@ def get_api_response(prompt):
             timeout=10
         )
         if response.ok:
-            return response.json().get('choices', [{}])[0].get('message', {}).get('content', "")
+            raw_response = response.json().get('choices', [{}])[0].get('message', {}).get('content', "")
+            return sanitize_text(raw_response)
     except Exception as e:
         logger.error(f"API error: {str(e)}")
     
-    # Fallback to DuckDuckGo
     try:
         params = {"q": prompt, "format": "json", "no_html": 1}
         ddg = requests.get("https://api.duckduckgo.com/", params=params, timeout=5)
         if ddg.ok:
-            return ddg.json().get("Abstract", "Sorry, I couldn't find an answer.")
+            raw_response = ddg.json().get("Abstract", "Sorry, I couldn't find an answer.")
+            return sanitize_text(raw_response)
     except:
         pass
     
-    return "Mou... I don't know the answer desu~ (´･ω･`)"
+    return sanitize_text("Mou... I don't know the answer desu (´･ω･`)")
 
 def handle_query(prompt):
-    normalized_prompt = prompt.strip().lower()
+    normalized_prompt = sanitize_text(prompt.strip().lower())
     responses = load_responses()
     
-    # 1. Check exact matches
     if normalized_prompt in responses:
         return persona.apply_style(responses[normalized_prompt])
     
-    # 2. Check partial matches (e.g., "hello there" -> "hello")
     for key, response in responses.items():
         if key in normalized_prompt:
             return persona.apply_style(response)
     
-    # 3. Special behaviors
     if any(greeting in normalized_prompt for greeting in ["hello", "hi", "konnichiwa"]):
         return persona.traits['Behavior'].get('greeting', 'Konnichiwa!')
     
     if any(bye in normalized_prompt for bye in ["bye", "goodbye", "sayonara"]):
-        return persona.traits['Behavior'].get('farewell', 'Ja ne~!')
+        return persona.traits['Behavior'].get('farewell', 'Ja ne!')
     
-    # 4. Fallback to APIs
     api_response = get_api_response(prompt)
     return persona.apply_style(api_response)
 
-# TTS Engine
 def generate_tts(text):
     output_file = os.path.join('static', 'response.mp3')
     try:
         engine = pyttsx3.init()
-        engine.setProperty('rate', 160)  # Slightly faster for anime-style
+        engine.setProperty('rate', 160)
         engine.setProperty('volume', 0.9)
-        engine.save_to_file(text, output_file)
+        # Sanitize text before TTS generation
+        clean_text = sanitize_text(text)
+        engine.save_to_file(clean_text, output_file)
         engine.runAndWait()
         return output_file
     except Exception as e:
         logger.error(f"TTS failed: {str(e)}")
         return None
 
-# Routes
 @app.route('/')
 def index():
     return send_from_directory('templates', 'index.html')
@@ -168,7 +174,7 @@ def tts():
 @app.route('/reload_persona', methods=['POST'])
 def reload_persona():
     persona.load()
-    return jsonify({"status": "Persona reloaded", "traits": dict(persona.traits)})
+    return jsonify({"status": "Persona reloaded"})
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
