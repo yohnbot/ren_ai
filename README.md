@@ -3,7 +3,7 @@ An AI powered Virtual Youtuber that uses Deepseek and Duckduckgo to answer quest
 will be using a virutal audio cable and vtube studio to make a model work with the tts of the web application for the demo.
 
 ## Snapshot of web application
-![image](https://github.com/user-attachments/assets/28cd10a5-0e6f-4b3a-8c4b-ffae17bc8903)
+![image](https://github.com/user-attachments/assets/a35a0d96-c695-4c9f-b181-30cdfcbc1c64)
 ![Screenshot 2025-04-24 204534](https://github.com/user-attachments/assets/35efa11d-1593-4ddf-9202-12f04b785282)
 
 
