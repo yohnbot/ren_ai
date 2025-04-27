@@ -75,6 +75,14 @@ def load_responses():
         logger.error(f"Failed to load responses: {str(e)}")
         return {}
 
+def save_responses(responses):
+    try:
+        with open(RESPONSES_PATH, 'w') as f:
+            json.dump(responses, f, indent=4)
+        logger.info("Responses saved successfully.")
+    except Exception as e:
+        logger.error(f"Failed to save responses: {str(e)}")
+
 def get_api_response(prompt):
     try:
         headers = {"Authorization": f"Bearer {DEEPSEEK_API_KEY}"}
@@ -106,7 +114,6 @@ def get_api_response(prompt):
     return sanitize_text("Mou... I don't know the answer desu (´･ω･`)")
 
 def handle_query(prompt):
-    # Force English response and handle specific "creator" query
     normalized_prompt = sanitize_text(prompt.strip().lower())
     responses = load_responses()
 
@@ -121,14 +128,16 @@ def handle_query(prompt):
         if key in normalized_prompt:
             return persona.apply_style(response)
 
-    if any(greeting in normalized_prompt for greeting in ["hello", "hi", "konnichiwa"]):
-        return persona.traits['Behavior'].get('greeting', 'Konnichiwa!')
-
-    if any(bye in normalized_prompt for bye in ["bye", "goodbye", "sayonara"]):
-        return persona.traits['Behavior'].get('farewell', 'Ja ne!')
-
+    # Get response from the API or fallback option
     api_response = get_api_response(prompt)
-    return persona.apply_style(api_response)
+    response = persona.apply_style(api_response)
+
+    # Cache the new response if it's not already in the responses
+    if normalized_prompt not in responses:
+        responses[normalized_prompt] = response
+        save_responses(responses)  # Save the updated responses to the file
+
+    return response
 
 def generate_tts(text):
     output_file = os.path.join('static', 'response.mp3')
@@ -195,11 +204,29 @@ def reload_persona():
     persona.load()
     return jsonify({"status": "Persona reloaded"})
 
+@app.route('/update_response', methods=['POST'])
+def update_response():
+    prompt = request.json.get('prompt', '').strip().lower()
+    new_response = request.json.get('response', '').strip()
+
+    if not prompt or not new_response:
+        return jsonify({"error": "Both prompt and response are required."}), 400
+
+    responses = load_responses()
+
+    # Update the response for the given prompt
+    responses[prompt] = sanitize_text(new_response)
+
+    # Save the updated responses
+    save_responses(responses)
+
+    return jsonify({"status": "Response updated successfully!"})
+
 @app.route('/static/<path:filename>')  # Serve static files (like TTS)
 def serve_static(filename):
     return send_from_directory(app.static_folder, filename)
 
-# ---------------------------
+# --------------------------- 
 # Twitch Chat Reading Section
 # ---------------------------
 
