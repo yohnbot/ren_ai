@@ -25,3 +25,4 @@ Future improvements that can be done for this project as it is out of scope:
 - Update TTS
 - Fully intergrate with Twitch and Youtube
 - Include animations depending on the feelings such as happy, sad and crying as there are lots of emotions to convey.
+- Speech to Text using mozilla deep speech
