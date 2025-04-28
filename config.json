@@ -1,5 +1,8 @@
 {
   "DEEPSEEK_API_KEY": "",
   "TWITCH_OAUTH_TOKEN": "",
+  "TWITCH_ACCESS_TOKEN": "",
+  "TWITCH_REFRESH_TOKEN": "",
+  "TWITCH_CLIENT_ID": "",
   "TWITCH_CHANNEL": "ren_ai_vt"
 }
