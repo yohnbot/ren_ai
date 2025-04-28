@@ -1,0 +1,25 @@
+{
+    "triggers": [
+      {"type": "greeting", "text": "Hello there! Nice to meet you!"},
+      {"type": "greeting", "text": "Hi! Hows it going?"},
+      {"type": "greeting", "text": "Hey! Whats up?"},
+      {"type": "greeting", "text": "Good day! How can I assist you today?"},
+      {"type": "random", "text": "I'm feeling a bit hungry..."},
+      {"type": "random", "text": "Have you looked outside today?"},
+      {"type": "random", "text": "What do you think about the weather?"},
+      {"type": "random", "text": "I love chatting with you!"},
+      {"type": "random", "text": "Did you hear about the latest news?"},
+      {"type": "random", "text": "I just saw something really interesting!"},
+      {"type": "random", "text": "Do you have any fun plans for today?"},
+      {"type": "random", "text": "Sometimes I wonder about the universe..."},
+      {"type": "random", "text": "I think it's time for a little break."},
+      {"type": "weather", "text": "It looks like it might rain today."},
+      {"type": "weather", "text": "The sun is shining brightly today!"},
+      {"type": "weather", "text": "I hope it stays warm this weekend."},
+      {"type": "weather", "text": "Looks like we're in for some cold weather."},
+      {"type": "question", "text": "What is your favorite thing to do on weekends?"},
+      {"type": "question", "text": "If you could travel anywhere, where would you go?"},
+      {"type": "question", "text": "What is the best book you have ever read?"},
+      {"type": "question", "text": "Do you prefer coffee or tea?"}
+    ]
+  }
