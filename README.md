@@ -69,10 +69,9 @@ Download from https://denchisoft.com/ or Steam, install, and load your avatar mo
 2. Follow this youtube tutorial to route audio from VTube Studio to The plugin https://youtu.be/IiZ0JrGd6BQ
 
 3. Add custom animation to avatar such as blink etc. and ensure that the you use the plug in for the mouth movement.
+--- 
 
-
-
-Future improvements that can be done for this project as it is out of scope:
+## Future improvements that can be done for this project as it is out of scope:
 - Update TTS
 - Fully intergrate with Twitch and Youtube
 - Include animations depending on the feelings such as happy, sad and crying as there are lots of emotions to convey.
