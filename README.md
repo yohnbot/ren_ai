@@ -1,4 +1,4 @@
-# Ren AI Vtuber
+# RenAI - Vtuber Localised System
 An AI powered Virtual Youtuber that uses Deepseek and Duckduckgo to answer questions. It stores questions in a dictionary called response.json to help answer already asked question. 
 will be using a virutal audio cable and vtube studio to make a model work with the tts of the web application for the demo.
 
